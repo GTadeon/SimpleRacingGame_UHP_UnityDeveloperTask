@@ -2,7 +2,6 @@
 using System.Linq;
 using UnityEngine;
 
-
 /// <summary>
 /// used for fetching all the needed data for this racing game.
 /// (speed caluclations, constants, etc..). 
@@ -13,6 +12,11 @@ public class DataCenter : MonoBehaviour {
     public const float DefaultVehicleVelocity = 10f;
 
     public const bool ShouldCarsMoveFromStart = false;
+
+    public static DataCenter _DataCenter;
+
+
+    public StarterConfigInputs[] starterConfigs;
 
 
 
@@ -61,6 +65,7 @@ public class DataCenter : MonoBehaviour {
 
     void Awake()
     {
+        _DataCenter = GetComponent<DataCenter>();
         GeneratedRaceStarters.Clear();
     }
 

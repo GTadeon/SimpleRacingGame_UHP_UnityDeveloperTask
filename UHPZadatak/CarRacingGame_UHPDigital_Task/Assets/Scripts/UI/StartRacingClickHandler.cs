@@ -11,36 +11,19 @@ using UnityEngine.UI;
 public class StartRacingClickHandler : MonoBehaviour, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler
 {
 
-    public static StartRacingClickHandler _StartRacingClickHandler;
-
     private Button _button;
-
-    //todo_: u zasbeni fajl stavit!
-    [System.Serializable]
-    public class StarterConfigInputs
-    {
-        public Dropdown SelectCarBranModelDdl;
-        public Dropdown SelectCarColorDdl;
-        public Dropdown SelectCarTireDdl;
-        public Dropdown SelectCarBodyDdl;
-        public Dropdown SelectCarEngineDdl;
-    }
-
-    public StarterConfigInputs[] starterConfigs;
-
 
     void Awake()
     {
         this._button = GetComponent<Button>();
-        _StartRacingClickHandler = this.GetComponent<StartRacingClickHandler>();
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         this._button.enabled = false;
-        for (int i = 0; i < starterConfigs.Length; i++)
+        for (int i = 0; i < DataCenter._DataCenter.starterConfigs.Length; i++)
         {
-            RegisterRaceStarterCar(starterConfigs[i], i);
+            RegisterRaceStarterCar(DataCenter._DataCenter.starterConfigs[i], i);
         }
         StartFollowingTheFastestCar();
     }
@@ -55,6 +38,9 @@ public class StartRacingClickHandler : MonoBehaviour, IPointerClickHandler, IPoi
         RaceStarterModel racer = RacingCarsFactory.MakeRaceStarter(config);
         DataCenter.RegisterRaceStarters(racer);
         RacingCarsFactory.InstantiateCarObject(racer, trackIndex);
+
+        UserCarSettings userSettings = RacingCarsFactory.MakeUserSettings(config, racer.RaceStarterId);
+        Repository.SaveCarStartersConfigs(userSettings);
     }
 
     //we'll only keep fastest in camera's focus

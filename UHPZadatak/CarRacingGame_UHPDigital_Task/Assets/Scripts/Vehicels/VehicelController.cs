@@ -57,7 +57,14 @@ public class VehicelController : MonoBehaviour {
 
     public void InitRaceStarter(RaceStarterModel raceStarter)
     {
-        StarterIdObjectInstance.Add(raceStarter.RaceStarterId, this.gameObject);
+        if (!StarterIdObjectInstance.ContainsKey(raceStarter.RaceStarterId))
+        {
+            StarterIdObjectInstance.Add(raceStarter.RaceStarterId, this.gameObject);
+        }
+        else
+        {
+            StarterIdObjectInstance[raceStarter.RaceStarterId] = this.gameObject;
+        }
         this.RaceStarter = raceStarter;
         this._velocity = raceStarter.RaceStarterVelocity;
         this._canMove = true;

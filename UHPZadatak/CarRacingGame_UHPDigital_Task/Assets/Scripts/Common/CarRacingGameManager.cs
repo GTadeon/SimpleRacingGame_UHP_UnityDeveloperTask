@@ -12,10 +12,36 @@ public class CarRacingGameManager : MonoBehaviour {
 
     public Text whoWonText;
 
+
+
     void Awake()
     {
         _carRacingGameManager = GetComponent<CarRacingGameManager>();
         _isGameFinished = false;
+    }
+
+    void Start()
+    {
+        UpdateConfigPanels();
+    }
+
+    /// <summary>
+    /// pulls data from storage and if any, updates the panels accordingly
+    /// </summary>
+    private void UpdateConfigPanels()
+    {
+        var configs = Repository.GetUserCarSettings();
+        if (configs!=null )
+        {
+            for (int i = 0; i < configs.Count; i++)
+            {
+                DataCenter._DataCenter.starterConfigs[i].SelectCarBodyDdl.value = (int)configs[i].VehicleBodySelected;
+                DataCenter._DataCenter.starterConfigs[i].SelectCarBranModelDdl.value = (int)configs[i].BrandSelected;
+                DataCenter._DataCenter.starterConfigs[i].SelectCarColorDdl.value = (int)configs[i].ColorSelected;
+                DataCenter._DataCenter.starterConfigs[i].SelectCarEngineDdl.value = (int)configs[i].EngineSelected;
+                DataCenter._DataCenter.starterConfigs[i].SelectCarTireDdl.value = (int)configs[i].TireSelected;
+            }
+        }
     }
 
     public static void FinishGame(GameObject carThatFinished)

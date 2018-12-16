@@ -2,7 +2,7 @@
 public interface IRacingCarsFactory
 {
 
-    RaceStarterModel MakeRaceStarter(StartRacingClickHandler.StarterConfigInputs starterInputConfigs);
+    RaceStarterModel MakeRaceStarter(StarterConfigInputs starterInputConfigs);
 
     void InstantiateCarObject(RaceStarterModel raceStarter, int trackIndex);
 

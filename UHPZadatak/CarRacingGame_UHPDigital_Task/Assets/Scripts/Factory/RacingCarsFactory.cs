@@ -40,6 +40,7 @@ public class RacingCarsFactory : MonoBehaviour, IRacingCarsFactory
 
     private void Init()
     {
+        _createdCarsIncrement = 0;
         _racingCarsFactory = GetComponent<RacingCarsFactory>();
     }
 
@@ -50,8 +51,20 @@ public class RacingCarsFactory : MonoBehaviour, IRacingCarsFactory
         return "carStarterNo." + _createdCarsIncrement.ToString();
     }
 
+    public static UserCarSettings MakeUserSettings(StarterConfigInputs starterInputConfigs, string starterCarId)
+    {
+        var userConfig = new UserCarSettings();
+        userConfig.StarterCarId = starterCarId;
+        userConfig.BrandSelected = (BrandModel.BrandModelType)starterInputConfigs.SelectCarBranModelDdl.value;
+        userConfig.ColorSelected = (ColorModel.BodyColor)starterInputConfigs.SelectCarColorDdl.value;
+        userConfig.TireSelected = (TireModel.TireType)starterInputConfigs.SelectCarTireDdl.value;
+        userConfig.VehicleBodySelected = (VehicleBodyModel.VehicleType)starterInputConfigs.SelectCarBodyDdl.value;
+        userConfig.EngineSelected = (EngineModel.EngineType)starterInputConfigs.SelectCarEngineDdl.value;
+        return userConfig;
+    }
 
-    public static RaceStarterModel MakeRaceStarter(StartRacingClickHandler.StarterConfigInputs starterInputConfigs)
+
+    public static RaceStarterModel MakeRaceStarter(StarterConfigInputs starterInputConfigs)
     {
         var raceStarter = new RaceStarterModel();
         raceStarter.RaceStarterId = GenerateStarterId();
@@ -245,7 +258,7 @@ public class RacingCarsFactory : MonoBehaviour, IRacingCarsFactory
         InstantiateCarObject(raceStarter, trackIndex);
     }
 
-    RaceStarterModel IRacingCarsFactory.MakeRaceStarter(StartRacingClickHandler.StarterConfigInputs starterInputConfigs)
+    RaceStarterModel IRacingCarsFactory.MakeRaceStarter(StarterConfigInputs starterInputConfigs)
     {
         return MakeRaceStarter(starterInputConfigs);
     }
